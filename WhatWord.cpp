@@ -1,11 +1,9 @@
-/* ------------------------------------------------
-* Author: Robert L Barrera
-* Class: CS 141, Fall 2016
-* Program: #5, WhatWord
-* System: Windows 10, Visual Studio
-* TA: HoangMinh  HuynhNguyen, Tue 11am-11:50
-* Nov 21, 2016
-* -------------------------------------------------
+/*
+/ Robert Barrera
+/ CS 141 at UIC
+/ Program 5: WhatWord
+/
+/ Retry of Program 5 in CS 141 in C++
 */
 
 #include <iostream>		// For standard input output
@@ -27,12 +25,12 @@ const int MinWordLength = 2;		// Minimum word length
 const int MaxWordLength = 17;	    // Maximum word length + 1 for null 
 
 
-									// Displays programmer's information
+// Displays programmer's information
 void displayProgrammerInfo() {
 	cout << "Author: Robert L Barrera\n";
-	cout << "Class: CS 141, Program: #5, WhatWord\n";
-	cout << "TA: HoangMinh  HuynhNguyen, Tue 11am-11:50\n";
-	cout << "Nov 21, 2016\n\n";
+	cout << "Program: #5, WhatWord\n";
+	cout << "TA: Forgot\n";
+	cout << "Feb 01, 2023\n\n";
 }
 
 
@@ -210,45 +208,45 @@ double generateRandomNumber() {
 }
 
 
-// Assigns a letter to the board according random number
+// Assigns a letter to the board according to random number
 void assignLettersToBoard(char board[]) {
 	double randomNumber;
 	int count = 0;
 	// Frequency numbers for each letter of the alphabet
-	double letterValues[26]{ 0.07680,  //  a
-		0.09485,  //  b
-		0.13527,  //  c
-		0.16824,  //  d
-		0.28129,  //  e
-		0.29299,  //  f
-		0.32033,  //  g
-		0.34499,  //  h
-		0.43625,  //  i
-		0.43783,  //  j
-		0.44627,  //  k
-		0.49865,  //  l
-		0.52743,  //  m
-		0.59567,  //  n
-		0.66222,  //  o
-		0.69246,  //  p
-		0.69246,  //  q
-		0.76380,  //  r
-		0.86042,  //  s
-		0.92666,  //  t
-		0.95963,  //  u
-		0.96892,  //  v
-		0.97616,  //  w
-		0.97892,  //  x
-		0.99510,  //  y
-		1.00000 }; //  z
+	double letterValues[26]{0.07680,  //  a
+							0.09485,  //  b
+							0.13527,  //  c
+							0.16824,  //  d
+							0.28129,  //  e
+							0.29299,  //  f
+							0.32033,  //  g
+							0.34499,  //  h
+							0.43625,  //  i
+							0.43783,  //  j
+							0.44627,  //  k
+							0.49865,  //  l
+							0.52743,  //  m
+							0.59567,  //  n
+							0.66222,  //  o
+							0.69246,  //  p
+							0.69246,  //  q
+							0.76380,  //  r
+							0.86042,  //  s
+							0.92666,  //  t
+							0.95963,  //  u
+							0.96892,  //  v
+							0.97616,  //  w
+							0.97892,  //  x
+							0.99510,  //  y
+							1.00000}; //  z
 
-	for (int row = 0; row < 19; row += 6) { // For rows
+	for (int row = 0; row < 19; row += 6) {					// For rows
 		for (int column = 7; column < 11; column++) {		// For columns
-			randomNumber = generateRandomNumber();				// New random number for each position
+			randomNumber = generateRandomNumber();			// New random number for each position
 
-			for (int value = 0; value < 26; value++) {			// Values in letterValues array
-				if (randomNumber <= letterValues[value]) {		// Compare random number to letterValues
-					board[row + column] = 'a' + value;				// Assign board position a letter 
+			for (int value = 0; value < 26; value++) {		// Values in letterValues array
+				if (randomNumber <= letterValues[value]) {	// Compare random number to letterValues
+					board[row + column] = 'a' + value;		// Assign board position a letter 
 					break;
 				}
 			}
@@ -260,8 +258,8 @@ void assignLettersToBoard(char board[]) {
 // Reset board to user characters
 void resetBoard(char newBoard[], char board[]) {
 	int index = 0;	// For newBoard's elements
-	for (int row = 0; row < 19; row += 6) { // For rows
-		for (int column = 7; column < 11; column++) {		// For columns
+	for (int row = 0; row < 19; row += 6) {			// For rows
+		for (int column = 7; column < 11; column++) {// For columns
 			board[row + column] = newBoard[index++]; // Copy user characters to board
 		}
 	}
@@ -344,18 +342,14 @@ void displayAllWordsOnBoard(char board[], char ** &dictionary) {
 }
 
 
-void toggleTimer(time_t start) {
-
-}
-
-
 // Checks user input for options
-bool checkForOptions(char inputWord[], char board[], char ** & dictionary, bool &timerToggle) {
+bool checkForOptions(char inputWord[], char board[], char ** & dictionary, bool &timerToggle, bool wordsFound[]) {
 	if (inputWord[0] == 'r' || inputWord[0] == 'R') {		// Reset board
 		cout << "Enter 16 characters to be used to set the board: ";
 		char newBoard[20];
 		cin >> newBoard;
 		resetBoard(newBoard, board);	// Reset board to user characters
+		setBoolsToFalse(wordsFound);
 		return true;
 	}
 	else if (inputWord[0] == 's' || inputWord[0] == 'S') {	// Solve & display all words on board
@@ -421,7 +415,7 @@ bool checkBoardForWord(char inputWord[], char board[], char ** & dictionary, boo
 // Checks user input if options are selected
 bool checkUserInput(char inputWord[], char board[], char ** & dictionary, bool wordsFound[], bool &timerToggle, int &score) {
 	if (strlen(inputWord) == 1) {	// If string is one character
-		if (checkForOptions(inputWord, board, dictionary, timerToggle)) {	// Then check for options
+		if (checkForOptions(inputWord, board, dictionary, timerToggle, wordsFound)) {	// Then check for options
 			return false;
 		}
 	}
@@ -464,7 +458,7 @@ int main() {
 	readInDictionary(dictionary);	// Reads in dicationary words into array
 	setBoolsToFalse(wordsFound);
 
-	time_t start = time(NULL) + 600;	// Timer starts at 60
+	time_t start = time(NULL) + 60;	// Timer starts at 60
 	displayTimer(start);		// Display timer
 
 	do {
